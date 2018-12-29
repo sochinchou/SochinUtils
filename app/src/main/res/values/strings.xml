@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">SochinUtils</string>
+
+    <string name="btn0">Button0</string>
+    <string name="btn1">Button1</string>
+    <string name="btn2">Button2</string>
+    <string name="btn3">Button3</string>
+    <string name="btn4">Button4</string>
+    <string name="btn5">Button5</string>
+    <string name="btn6">Button6</string>
+    <string name="btn7">Button7</string>
+    <string name="btn8">Button8</string>
+    <string name="btn9">Button9</string>
+
+
+    <string name="txt1">zhouzhou</string>
+    <string name="txt2">sochinchousochinchou</string>
+</resources>

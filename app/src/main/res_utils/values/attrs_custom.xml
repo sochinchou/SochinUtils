@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="enum_attr">
+        <enum name="value1" value = "1"/>
+        <enum name="value2" value = "1"/>
+    </attr>
+
+    <attr name="flag_attr">
+        <flag name="flag1" value = "0x01"/>
+        <flag name="flag2" value = "0x02"/>
+    </attr>
+
+    <attr name="text" format="string"/>
+
+    <declare-styleable name="mytext">
+        <attr name="text"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="cross">
+        <attr name="android:color"/>
+        <attr name="rotation" format="string" />
+    </declare-styleable>
+
+    <!--
+    TypedArray arr = getContext().obtainStyledAttributes(attrs, R.styleable.cross);
+int color = arr.getColor(R.styleable.cross_android_color, Color.WHITE);
+float rotation = arr.getFloat(R.styleable.cross_rotation, 0f);
+    -->
+</resources>

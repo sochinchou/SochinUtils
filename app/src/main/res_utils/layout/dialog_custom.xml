@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearVMW"
+    android:background="#000" >
+
+    <LinearLayout
+        android:id="@+id/llTitle"
+        style="@style/LinearHMW"
+        android:padding="20dp" >
+
+        <ImageView
+            android:id="@+id/imgIcon"
+            style="@style/ImageView1"
+            android:layout_marginRight="20dp" />
+
+        <TextView
+            android:id="@+id/txtTitle"
+            style="@style/TextView1"
+            android:textColor="#fff"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/dividerTop"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#fff" />
+
+    <LinearLayout
+        android:id="@+id/llContent"
+        style="@style/LinearVMW"
+        android:layout_height="@dimen/zero_size"
+        android:layout_weight="1"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/txtMessage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="#fff"
+            android:textSize="22sp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/dividerBottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="#fff" />
+
+    <LinearLayout
+        android:id="@+id/llButton"
+        style="@style/LinearHMW"
+        android:layout_height="70dp"
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/btnPositive"
+            android:layout_width="@dimen/zero_size"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="#fff"
+            android:textSize="22sp" />
+
+        <View
+            android:id="@+id/dividerBottomCenter"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#fff" />
+
+        <Button
+            android:id="@+id/btnNegative"
+            android:layout_width="@dimen/zero_size"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="#fff"
+            android:textSize="22sp" />
+    </LinearLayout>
+
+</LinearLayout>
