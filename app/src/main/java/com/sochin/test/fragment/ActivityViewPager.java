@@ -20,13 +20,17 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.sochin.R;
+import com.sochin.code.fragment.MyBaseFragment;
 import com.sochin.code.recyclerview.MyRecyclerAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class ViewPagerActivity extends AppCompatActivity{
+public class ActivityViewPager extends AppCompatActivity{
 
     private static final String TAG = "ActivityTestFragment";
     private static final String PREFIX = "|||||||||| ";
@@ -38,13 +42,17 @@ public class ViewPagerActivity extends AppCompatActivity{
 
     private FragmentStatePagerAdapter mStatePagerAdapter;
     private FragmentPagerAdapter mPagerAdapter;
+
+    private MyPagerAdapter myPagerAdapter;
+    private MyStatePagerAdapter myStatePagerAdapter;
+    private List<MyBaseFragment> mFragments;
     private MyRecyclerAdapter myRecyclerAdapter;
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
+    @BindView(R.id.viewPagerState)
+    ViewPager viewPagerState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +127,14 @@ public class ViewPagerActivity extends AppCompatActivity{
 
 
     private void initViews(){
-
+        mFragments = new ArrayList<>();
+        mFragments.add(new FragmentRed());
+        mFragments.add(new FragmentGreen());
+        mFragments.add(new FragmentBlue());
+//        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), mFragments);
+//        viewPager.setAdapter(myPagerAdapter);
+        myStatePagerAdapter = new MyStatePagerAdapter(getSupportFragmentManager(), mFragments);
+        viewPagerState.setAdapter(myStatePagerAdapter);
     }
 
 

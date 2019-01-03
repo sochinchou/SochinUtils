@@ -12,11 +12,11 @@ import com.sochin.code.fragment.MyBaseFragment;
  */
 
 public class FragmentGreen extends MyBaseFragment {
+
 	@Override
 	protected int getContentLayout() {
 		return R.layout.fragment_green;
 	}
-
 
 	@Override
 	public String getFragmentTag() {
@@ -27,26 +27,14 @@ public class FragmentGreen extends MyBaseFragment {
 	public void onResume() {
 		super.onResume();
 
-		FragmentManager fragmentManager = getChildFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.fl, new FragmentBlue())
-				.commit();
-
-		Log.d(TAG, "||||||||||||||||||||||| onResume() >>>");
+//		FragmentManager fragmentManager = getChildFragmentManager();
+//		fragmentManager.beginTransaction()
+//				.replace(R.id.fl, new FragmentBlue())
+//				.commit();
+//
+//		Log.d(TAG, "||||||||||||||||||||||| onResume() >>>");
 	}
 
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 
-
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-
-
-	}
 }

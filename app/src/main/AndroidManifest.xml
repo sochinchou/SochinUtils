@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme1">
 
-        <activity android:name=".test.fragment.ActivityTestFragment"
+        <activity android:name=".test.fragment.ActivityViewPager"
             android:screenOrientation="landscape"
             android:launchMode="singleTask"
             >

@@ -26,6 +26,7 @@ public class SecondActivity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION2);
         registerReceiver(mBroadcastReceiver, filter);
+
     }
 
     @Override

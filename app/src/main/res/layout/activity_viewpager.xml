@@ -30,7 +30,7 @@
         </android.support.v4.view.ViewPager>
     </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/linearLayout"
         android:layout_width="259dp"
         android:layout_height="185dp"
@@ -41,15 +41,16 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/frameLayout"
         app:layout_constraintTop_toTopOf="parent">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPagerState"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </android.support.v7.widget.RecyclerView>
+
+        </android.support.v4.view.ViewPager>
 
 
-    </LinearLayout>
+    </FrameLayout>
 
     <Button
         android:id="@+id/btn0"

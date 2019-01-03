@@ -8,16 +8,14 @@ import com.sochin.code.fragment.MyBaseFragment;
  */
 
 public class FragmentRed extends MyBaseFragment {
+
 	@Override
 	protected int getContentLayout() {
 		return R.layout.fragment_red;
 	}
 
-
 	@Override
 	public String getFragmentTag() {
 		return "red";
 	}
-
-
 }
