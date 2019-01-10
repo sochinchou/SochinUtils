@@ -14,12 +14,12 @@ import java.util.List;
  * Created by Administrator on 2018/11/5.
  */
 
-public class MyRecyclerAdapter extends RecyclerView.Adapter<MyViewHolder> {
+public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
 
     private List<String> mList;
 
-    public MyRecyclerAdapter(List<String> arr) {
+    public MyAdapter(List<String> arr) {
         this.mList = arr;
     }
 
