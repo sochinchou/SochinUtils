@@ -12,8 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 import com.sochin.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class MyActivity extends AppCompatActivity implements OnClickListener {
@@ -21,14 +25,15 @@ public class MyActivity extends AppCompatActivity implements OnClickListener {
 	private static final String TAG = "MyActivity";
 
 	private Context mContext;
-
+	@BindView(R.id.txt1)
+	TextView txt1;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(TAG, "onCreate() >>>>>");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_custom);
-		
+		ButterKnife.bind(this);
 		init();
 		initLayout();
 		// TODO

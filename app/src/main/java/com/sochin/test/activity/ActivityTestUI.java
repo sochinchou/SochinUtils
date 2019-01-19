@@ -1,30 +1,24 @@
-package com.sochin.code;
-
+package com.sochin.test.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-
 
 import com.sochin.R;
 
+/**
+ * Created by Administrator on 2019/1/10.
+ */
 
-
-public class TestActivity extends AppCompatActivity{
-
-    private static final String TAG = "TestActivity";
+public class ActivityTestUI extends AppCompatActivity {
+    private static final String TAG = "ActivityTestUI";
     private static final String PREFIX = "|||||||||| ";
 
 
@@ -34,7 +28,7 @@ public class TestActivity extends AppCompatActivity{
         Log.d(TAG, PREFIX + "onCreate() >>>>>");
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_ui);
 
 
         IntentFilter filter = new IntentFilter();
@@ -197,5 +191,4 @@ public class TestActivity extends AppCompatActivity{
             }
         }
     };
-
 }

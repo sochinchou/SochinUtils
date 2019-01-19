@@ -1,10 +1,8 @@
-package com.sochin.test.fragment;
+package com.sochin.code.fragment;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-
-import com.sochin.code.fragment.MyBaseFragment;
 
 import java.util.List;
 

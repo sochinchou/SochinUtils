@@ -4,5 +4,7 @@
         android:state_pressed="true" />
     <item android:color="@color/red"
         android:state_selected="true" />
+    <item android:color="@color/red"
+        android:state_checked="true" />
     <item android:color="@color/green" />
 </selector>

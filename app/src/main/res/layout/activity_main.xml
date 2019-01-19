@@ -44,6 +44,7 @@
         android:layout_marginTop="224dp"
         android:onClick="onBtn0"
         android:text="@string/btn0"
+        android:contentDescription="btn0btn0"
         app:layout_constraintEnd_toStartOf="@+id/btn1"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

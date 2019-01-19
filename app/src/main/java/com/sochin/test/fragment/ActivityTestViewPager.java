@@ -1,6 +1,7 @@
 package com.sochin.test.fragment;
 
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,14 +15,16 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.sochin.R;
 import com.sochin.code.fragment.MyBaseFragment;
-import com.sochin.code.recyclerview.MyRecyclerAdapter;
+import com.sochin.code.fragment.MyDialogSimple;
+import com.sochin.code.fragment.MyPagerAdapter;
+import com.sochin.code.fragment.MyStatePagerAdapter;
+import com.sochin.code.recyclerview.MyAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class ActivityViewPager extends AppCompatActivity{
+public class ActivityTestViewPager extends AppCompatActivity{
 
     private static final String TAG = "ActivityTestFragment";
     private static final String PREFIX = "|||||||||| ";
@@ -46,7 +49,7 @@ public class ActivityViewPager extends AppCompatActivity{
     private MyPagerAdapter myPagerAdapter;
     private MyStatePagerAdapter myStatePagerAdapter;
     private List<MyBaseFragment> mFragments;
-    private MyRecyclerAdapter myRecyclerAdapter;
+    private MyAdapter myRecyclerAdapter;
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
@@ -144,13 +147,18 @@ public class ActivityViewPager extends AppCompatActivity{
     private static final String ACTION1 = "action1";
 
 
-
+    MyDialogSimple dialog;
     public void onBtn0(View view){
-
+        if(dialog == null) {
+            dialog = new MyDialogSimple(this);
+        }
+        dialog.show();
     }
 
     public void onBtn1(View view){
-
+        if (dialog != null) {
+            dialog.dismiss();
+        }
     }
 
     public void onBtn2(View view){
