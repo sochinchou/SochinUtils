@@ -10,8 +10,18 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.sochin.R;
+import com.sochin.code.recyclerview.ItemInfo;
+import com.sochin.code.recyclerview.MyBaseAdapter;
+import com.sochin.code.recyclerview.MyBaseAdapterSimple;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2019/1/10.
@@ -22,6 +32,11 @@ public class ActivityTestUI extends AppCompatActivity {
     private static final String PREFIX = "|||||||||| ";
 
 
+    @BindView(R.id.list1)
+    ListView listView;
+    @BindView(R.id.txt1)
+    TextView txt1;
+    MyBaseAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +45,18 @@ public class ActivityTestUI extends AppCompatActivity {
 
         setContentView(R.layout.activity_ui);
 
+        ButterKnife.bind(this);
 
+        ArrayList<ItemInfo> data = new ArrayList<>();
+        for(int i = 0; i < 20; i ++){
+            data.add(new ItemInfo("AAAAAAAAAAAName " + String.valueOf(i),i, null));
+        }
+        mAdapter = new MyBaseAdapter(this, data);
+        listView.setAdapter(mAdapter);
+
+        txt1.setText("AAAAAAAAAAAAAAAAAAAAA");
         IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION1);
+//        filter.addAction(ACTION1);
         registerReceiver(mBroadcastReceiver, filter);
 
     }
@@ -93,7 +117,7 @@ public class ActivityTestUI extends AppCompatActivity {
 
     //********************************************
     public void onBtn0(View view){
-
+        sendBroadcast(new Intent());
     }
 
     public void onBtn1(View view){

@@ -147,7 +147,7 @@ public class ActivityTestFragment extends AppCompatActivity implements FragmentM
             String tag = fragment.getFragmentTag();
             int result = mFragmentManager.beginTransaction()
                     .replace(R.id.frameLayout, fragment, tag)
-                    .addToBackStack(tag)
+//                    .addToBackStack(tag)
                     .commit();
 //                    .commitAllowingStateLoss();
             Log.d(TAG, "replaceLeftFragment(int) >>> result = " + result);
@@ -162,7 +162,7 @@ public class ActivityTestFragment extends AppCompatActivity implements FragmentM
             int result = mFragmentManager.beginTransaction()
                     .setCustomAnimations(R.anim.anim_right_in, 0, R.anim.anim_right_in, 0)
                     .replace(R.id.frameLayout, fragment, tag)
-                    .addToBackStack(tag)
+//                    .addToBackStack(tag)
 //                    .commit();
             .commitAllowingStateLoss();
             Log.d(TAG, "replaceLeftFragment(MyBaseFragment) >>> result = " + result);

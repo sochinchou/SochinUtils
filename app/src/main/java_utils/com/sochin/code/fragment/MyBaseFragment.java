@@ -18,6 +18,13 @@ public abstract class MyBaseFragment extends Fragment {
     protected IFragmentActivity mActivity;
     protected Context mContext;
 
+
+    public abstract void initViews();
+    public abstract void initBeforeView();
+    public abstract void destroyViews();
+
+
+
     @Override
     public void onAttach(Context context) {
         Log.d(TAG, "onAttach() >>>");
@@ -32,6 +39,7 @@ public abstract class MyBaseFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate() >>>");
         super.onCreate(savedInstanceState);
+        initBeforeView();
     }
 
     @Override
@@ -39,7 +47,7 @@ public abstract class MyBaseFragment extends Fragment {
             Bundle savedInstanceState) {
     	Log.d(TAG, "onCreateView() >>>");
         mRootView = inflater.inflate(getContentLayout(), container, false);
-
+        initViews();
         return mRootView;
     }
 
@@ -57,7 +65,7 @@ public abstract class MyBaseFragment extends Fragment {
 
     @Override
     public void onStart() {
-      Log.d(TAG, "onStart() >>>");
+//      Log.d(TAG, "onStart() >>>");
         super.onStart();
     }
 
@@ -75,13 +83,14 @@ public abstract class MyBaseFragment extends Fragment {
 
     @Override
     public void onStop() {
-      Log.d(TAG, "onStop() >>>");
+//      Log.d(TAG, "onStop() >>>");
         super.onStop();
     }
 
     @Override
     public void onDestroyView() {
       Log.d(TAG, "onDestroyView() >>>");
+        destroyViews();
         super.onDestroyView();
     }
 

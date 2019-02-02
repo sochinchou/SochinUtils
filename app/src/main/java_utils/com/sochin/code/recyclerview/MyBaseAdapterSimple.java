@@ -67,32 +67,35 @@ public class MyBaseAdapterSimple extends BaseAdapter{
 		return position;
 	}
 	
-
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent){
-		View itemView = convertView;
+//		View itemView = convertView;
 		ViewWrapper wrapper = null;
 		
-		if(itemView == null){
-			itemView = LayoutInflater.from(mContext).inflate(R.layout.adapter_my_simple_adapter, parent, false);
-			wrapper = new ViewWrapper(itemView);
-			itemView.setTag(wrapper);
+		if(convertView == null){
+			convertView = LayoutInflater.from(mContext).inflate(R.layout.adapter_my_simple_adapter, parent, false);
+			wrapper = new ViewWrapper();
+			wrapper.mTxtName = (TextView)convertView.findViewById(R.id.txtName);
+			wrapper.mTxtValue = (TextView)convertView.findViewById(R.id.txtValue);
+			wrapper.mImgIcon = (ImageView)convertView.findViewById(R.id.imgIcon);
+			convertView.setTag(wrapper);
 		}else{
-			wrapper = (ViewWrapper)itemView.getTag();
+			wrapper = (ViewWrapper)convertView.getTag();
 		}
 		
 		
 		ItemInfo theItem = getItem(position);
 		
-		wrapper.getNameText().setText(theItem.mName);
-		wrapper.getValueText().setText(theItem.mValue);
-		wrapper.getIcon().setImageDrawable(theItem.mIcon);
+		wrapper.mTxtName.setText(theItem.mName);
+		wrapper.mTxtValue.setText(String.valueOf(theItem.mValue));
+		wrapper.mImgIcon.setImageDrawable(theItem.mIcon);
 	
 		if(position == mSelectedPosition){
-			itemView.setBackgroundColor(0xFFFF7800);
+			convertView.setBackgroundColor(0xFFFF7800);
 		}else{
-			itemView.setBackgroundColor(Color.TRANSPARENT);
+			convertView.setBackgroundColor(Color.TRANSPARENT);
 		}
-		return itemView;
+		return convertView;
 	}
 		
 	
@@ -102,36 +105,9 @@ public class MyBaseAdapterSimple extends BaseAdapter{
 	// wrapper
 	// ************************************************************
 	private class ViewWrapper{
-		View base;
 		TextView mTxtName = null;
 		TextView mTxtValue = null;
 		ImageView mImgIcon = null;
-
-		
-		ViewWrapper(View base){
-			this.base = base;
-		}
-		
-		TextView getNameText(){
-			if(mTxtName == null){
-				mTxtName = (TextView)base.findViewById(R.id.txtName);
-			}
-			return mTxtName;
-		}
-		
-		TextView getValueText(){
-			if(mTxtValue == null){
-				mTxtValue = (TextView)base.findViewById(R.id.txtValue);
-			}
-			return mTxtValue;
-		}
-		
-		ImageView getIcon(){
-			if(mImgIcon == null){
-				mImgIcon = (ImageView)base.findViewById(R.id.imgIcon);
-			}
-			return mImgIcon;
-		}
 	}
 	
 	
@@ -201,29 +177,6 @@ public class MyBaseAdapterSimple extends BaseAdapter{
 		}
 	}
 
-
-
-	// ************************************************************
-	// ItemInfo
-	// ************************************************************
-	private class ItemInfo{
-	    public String mName="";
-	    public String mValue="";
-	    public Drawable mIcon=null;
-	    
-		@Override
-		public boolean equals(Object o) {
-			ItemInfo info = (ItemInfo)o;
-			return mValue.equals(info.mValue);
-		}
-		
-		@Override
-		public int hashCode() {
-			return 0;
-		}   
-	}
-	
-	
 }
 
 

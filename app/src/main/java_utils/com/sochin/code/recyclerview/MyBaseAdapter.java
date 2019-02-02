@@ -69,41 +69,40 @@ public class MyBaseAdapter extends BaseAdapter{
 	
 
 	public View getView(int position, View convertView, ViewGroup parent){
-		View itemView = convertView;
+//		View itemView = convertView;
 		ViewWrapper wrapper = null;
 
-		if(itemView == null){
-			itemView = LayoutInflater.from(mContext).inflate(R.layout.adapter_my_adapter, parent, false);
-			wrapper = new ViewWrapper(itemView);
-			itemView.setTag(wrapper);
+		if(convertView == null){
+			convertView = LayoutInflater.from(mContext).inflate(R.layout.adapter_my_adapter, parent, false);
+			wrapper = new ViewWrapper(convertView);
+			convertView.setTag(wrapper);
 			
-			wrapper.getCheck().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {				
+			wrapper.getCheck().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					Integer position = (Integer)buttonView.getTag();
 					ItemInfo item = getItem(position);
-					//getItem(myPosition).setCheckedState(isChecked);
-					
+					item.setChecked(isChecked);
 				}
 			});	
 
 		}else{
-			wrapper = (ViewWrapper)itemView.getTag();
+			wrapper = (ViewWrapper)convertView.getTag();
 		}
 		
 		wrapper.getCheck().setTag(Integer.valueOf(position));
 		
 		ItemInfo theItem = getItem(position);
-		
 		wrapper.getNameText().setText(theItem.mName);
-		wrapper.getValueText().setText(theItem.mValue);
-	
+		wrapper.getValueText().setText(String.valueOf(theItem.mValue));
+		wrapper.getCheck().setChecked(theItem.isChecked);
+
 		if(position == mSelectedPosition){
-			itemView.setBackgroundColor(0xFFFF7800);
+			convertView.setBackgroundColor(0xFFFF7800);
 		}else{
-			itemView.setBackgroundColor(Color.TRANSPARENT);
+			convertView.setBackgroundColor(Color.TRANSPARENT);
 		}
-		return itemView;
+		return convertView;
 	}
 		
 	
@@ -118,25 +117,25 @@ public class MyBaseAdapter extends BaseAdapter{
 		TextView mTxtValue = null;
 		CheckBox mCheck = null;
 
-		
+
 		ViewWrapper(View base){
 			this.base = base;
 		}
-		
+
 		TextView getNameText(){
 			if(mTxtName == null){
 				mTxtName = (TextView)base.findViewById(R.id.txtName);
 			}
 			return mTxtName;
 		}
-		
+
 		TextView getValueText(){
 			if(mTxtValue == null){
 				mTxtValue = (TextView)base.findViewById(R.id.txtValue);
 			}
 			return mTxtValue;
 		}
-		
+
 		CheckBox getCheck(){
 			if(mCheck == null){
 				mCheck = (CheckBox)base.findViewById(R.id.chk1);
@@ -211,29 +210,6 @@ public class MyBaseAdapter extends BaseAdapter{
 			mListItem.clear();
 		}
 	}
-
-
-
-	// ************************************************************
-	// ItemInfo
-	// ************************************************************
-	private class ItemInfo{
-	    public String mName="";
-	    public String mValue="";
-	    public Drawable mIcon=null;
-	    
-		@Override
-		public boolean equals(Object o) {
-			ItemInfo info = (ItemInfo)o;
-			return mValue.equals(info.mValue);
-		}
-		
-		@Override
-		public int hashCode() {
-			return 0;
-		}   
-	}
-	
 	
 }
 

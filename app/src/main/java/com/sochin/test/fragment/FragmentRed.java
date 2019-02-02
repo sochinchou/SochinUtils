@@ -18,4 +18,19 @@ public class FragmentRed extends MyBaseFragment {
 	public String getFragmentTag() {
 		return "red";
 	}
+
+	@Override
+	public void initViews() {
+
+	}
+
+	@Override
+	public void initBeforeView() {
+
+	}
+
+	@Override
+	public void destroyViews() {
+
+	}
 }

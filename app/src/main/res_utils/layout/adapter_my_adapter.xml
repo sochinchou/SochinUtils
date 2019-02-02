@@ -4,16 +4,16 @@
     android:paddingLeft="5dp"
     android:gravity="center_vertical" >
 
-
-
     <LinearLayout 
         style="@style/LinearVMW" 
         android:gravity="center_vertical"
+        android:layout_width="200dp"
         >
 
         <TextView
             android:id="@+id/txtName"
             style="@style/TextView1"
+            android:layout_width="100dp"
             android:textSize="18sp"
             android:gravity="bottom"
             android:textColor="#000" />
@@ -28,9 +28,11 @@
     
         <CheckBox
         android:id="@+id/chk1"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        style="@style/CheckBox1" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+            android:text="OK"
+            android:textColor="#000"
+        style="@style/CheckBox1"
         android:layout_marginLeft="10dp"
         />
 
