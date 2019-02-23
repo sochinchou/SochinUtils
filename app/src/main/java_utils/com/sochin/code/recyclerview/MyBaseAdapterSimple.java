@@ -9,14 +9,18 @@ import java.util.List;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.sochin.R;
+
 
 
 public class MyBaseAdapterSimple extends BaseAdapter{
@@ -77,7 +81,6 @@ public class MyBaseAdapterSimple extends BaseAdapter{
 			wrapper = new ViewWrapper();
 			wrapper.mTxtName = (TextView)convertView.findViewById(R.id.txtName);
 			wrapper.mTxtValue = (TextView)convertView.findViewById(R.id.txtValue);
-			wrapper.mImgIcon = (ImageView)convertView.findViewById(R.id.imgIcon);
 			convertView.setTag(wrapper);
 		}else{
 			wrapper = (ViewWrapper)convertView.getTag();
@@ -88,7 +91,7 @@ public class MyBaseAdapterSimple extends BaseAdapter{
 		
 		wrapper.mTxtName.setText(theItem.mName);
 		wrapper.mTxtValue.setText(String.valueOf(theItem.mValue));
-		wrapper.mImgIcon.setImageDrawable(theItem.mIcon);
+//		wrapper.mImgIcon.setImageDrawable(theItem.mIcon);
 	
 		if(position == mSelectedPosition){
 			convertView.setBackgroundColor(0xFFFF7800);

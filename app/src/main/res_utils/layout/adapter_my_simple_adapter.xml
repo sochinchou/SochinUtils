@@ -8,7 +8,8 @@
         android:id="@+id/imgIcon"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        style="@style/ImageView1" 
+        style="@style/ImageView1"
+        android:src="@drawable/drawable_2"
         android:layout_marginRight="10dp"
         />
 

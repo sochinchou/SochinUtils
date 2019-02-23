@@ -20,8 +20,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.sochin.R;
+import com.sochin.code.dialog.MyDialogSimple;
 import com.sochin.code.fragment.MyBaseFragment;
-import com.sochin.code.fragment.MyDialogSimple;
 import com.sochin.code.fragment.MyPagerAdapter;
 import com.sochin.code.fragment.MyStatePagerAdapter;
 import com.sochin.code.recyclerview.MyAdapter;

@@ -1,4 +1,4 @@
-package com.sochin.code.fragment;
+package com.sochin.code.dialog;
 
 import android.app.Dialog;
 import android.content.Context;

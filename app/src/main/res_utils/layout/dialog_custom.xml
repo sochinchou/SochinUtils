@@ -1,86 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/LinearVMW"
-    android:background="#000" >
+    style="@style/LinearVMM"
+    android:background="#777"
+    >
 
     <LinearLayout
         android:id="@+id/llTitle"
         style="@style/LinearHMW"
-        android:padding="20dp" >
-
-        <ImageView
-            android:id="@+id/imgIcon"
-            style="@style/ImageView1"
-            android:layout_marginRight="20dp" />
-
+        android:layout_height="80dp"
+        android:background="#000"
+        android:visibility="gone"
+        android:gravity="center">
         <TextView
             android:id="@+id/txtTitle"
-            style="@style/TextView1"
-            android:textColor="#fff"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            style="@style/CustomDialogTitleText" />
     </LinearLayout>
 
-    <View
-        android:id="@+id/dividerTop"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#fff" />
+
 
     <LinearLayout
         android:id="@+id/llContent"
         style="@style/LinearVMW"
-        android:layout_height="@dimen/zero_size"
         android:layout_weight="1"
-        android:padding="10dp" >
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:gravity="center_horizontal"
+        >
 
+        <ImageView
+          android:id="@+id/imgBodyIcon"
+            style="@style/CustomDialogBodyIcon"
+            android:visibility="gone"
+            android:layout_marginTop="20dp"
+            />
         <TextView
-            android:id="@+id/txtMessage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textColor="#fff"
-            android:textSize="22sp" />
+            android:id="@+id/txtBodyMessage"
+            style="@style/CustomDialogBodyText"
+            android:visibility="gone"
+            android:layout_marginTop="30dp"
+            />
     </LinearLayout>
 
-    <View
-        android:id="@+id/dividerBottom"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="20dp"
-        android:background="#fff" />
+
 
     <LinearLayout
         android:id="@+id/llButton"
         style="@style/LinearHMW"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
+        android:padding="10dp"
+        android:visibility="gone"
         android:gravity="center" >
 
         <Button
             android:id="@+id/btnPositive"
-            android:layout_width="@dimen/zero_size"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-
-            android:gravity="center"
-            android:singleLine="true"
-            android:textColor="#fff"
-            android:textSize="22sp" />
-
-        <View
-            android:id="@+id/dividerBottomCenter"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#fff" />
-
+            style="@style/CustomDialogButton" />
+        <Button
+            android:id="@+id/btnNeutral"
+            style="@style/CustomDialogButton"
+            android:layout_marginLeft="10dp"
+            />
         <Button
             android:id="@+id/btnNegative"
-            android:layout_width="@dimen/zero_size"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:singleLine="true"
-            android:textColor="#fff"
-            android:textSize="22sp" />
+            style="@style/CustomDialogButton"
+            android:layout_marginLeft="10dp"
+            />
     </LinearLayout>
 
 </LinearLayout>

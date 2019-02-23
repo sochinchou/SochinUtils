@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sochin.R;
+import com.sochin.code.dialog.CustomDialog;
 import com.sochin.code.recyclerview.ItemInfo;
 import com.sochin.code.recyclerview.MyBaseAdapter;
 import com.sochin.code.recyclerview.MyBaseAdapterSimple;
@@ -36,7 +37,7 @@ public class ActivityTestUI extends AppCompatActivity {
     ListView listView;
     @BindView(R.id.txt1)
     TextView txt1;
-    MyBaseAdapter mAdapter;
+    MyBaseAdapterSimple mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class ActivityTestUI extends AppCompatActivity {
         for(int i = 0; i < 20; i ++){
             data.add(new ItemInfo("AAAAAAAAAAAName " + String.valueOf(i),i, null));
         }
-        mAdapter = new MyBaseAdapter(this, data);
+        mAdapter = new MyBaseAdapterSimple(this, data);
         listView.setAdapter(mAdapter);
 
         txt1.setText("AAAAAAAAAAAAAAAAAAAAA");
@@ -121,7 +122,12 @@ public class ActivityTestUI extends AppCompatActivity {
     }
 
     public void onBtn1(View view){
-
+        new CustomDialog.Builder(this, R.layout.layout_sample)
+                .setWidth(400)
+                .setHeight(400)
+                .setTitle("Title")
+                .setMessage("Message zhou shao qing")
+                .show();
     }
 
     public void onBtn2(View view){
