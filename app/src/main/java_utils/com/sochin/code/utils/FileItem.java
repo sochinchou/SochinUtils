@@ -11,7 +11,6 @@ import android.net.Uri;
  *
  */
 public class FileItem implements Comparable<FileItem>{
-	
 
 	String mName = ""; // file name
 	String mPath = ""; // file path

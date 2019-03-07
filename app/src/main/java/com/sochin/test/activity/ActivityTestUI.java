@@ -18,7 +18,11 @@ import com.sochin.code.dialog.CustomDialog;
 import com.sochin.code.recyclerview.ItemInfo;
 import com.sochin.code.recyclerview.MyBaseAdapter;
 import com.sochin.code.recyclerview.MyBaseAdapterSimple;
+import com.sochin.code.utils.FileUtils;
+import com.sochin.test.fragment.FragmentDialog;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -32,6 +36,10 @@ public class ActivityTestUI extends AppCompatActivity {
     private static final String TAG = "ActivityTestUI";
     private static final String PREFIX = "|||||||||| ";
 
+    private static final String SD = "/storage/sdcard";
+    private static final String SD_ = "/storage/sdcard/";
+    private static final String MUSIC = "/storage/sdcard/Music";
+    private static final String MUSIC_ = "/storage/sdcard/Music/new/";
 
     @BindView(R.id.list1)
     ListView listView;
@@ -48,17 +56,17 @@ public class ActivityTestUI extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        ArrayList<ItemInfo> data = new ArrayList<>();
-        for(int i = 0; i < 20; i ++){
-            data.add(new ItemInfo("AAAAAAAAAAAName " + String.valueOf(i),i, null));
-        }
-        mAdapter = new MyBaseAdapterSimple(this, data);
-        listView.setAdapter(mAdapter);
-
-        txt1.setText("AAAAAAAAAAAAAAAAAAAAA");
-        IntentFilter filter = new IntentFilter();
-//        filter.addAction(ACTION1);
-        registerReceiver(mBroadcastReceiver, filter);
+//        ArrayList<ItemInfo> data = new ArrayList<>();
+//        for(int i = 0; i < 20; i ++){
+//            data.add(new ItemInfo("AAAAAAAAAAAName " + String.valueOf(i),i, null));
+//        }
+//        mAdapter = new MyBaseAdapterSimple(this, data);
+//        listView.setAdapter(mAdapter);
+//
+//        txt1.setText("AAAAAAAAAAAAAAAAAAAAA");
+//        IntentFilter filter = new IntentFilter();
+////        filter.addAction(ACTION1);
+//        registerReceiver(mBroadcastReceiver, filter);
 
     }
 
@@ -118,20 +126,21 @@ public class ActivityTestUI extends AppCompatActivity {
 
     //********************************************
     public void onBtn0(View view){
-        sendBroadcast(new Intent());
+//        new FragmentDialog().show(getSupportFragmentManager(), null);
+
+        String path = MUSIC + "/zhoushaoqing.txt";
+        Log.d(TAG, "name = " + FileUtils.getSizeString(1900, 3));
+        Log.d(TAG, "name = " + (1 << 10));
     }
 
     public void onBtn1(View view){
-        new CustomDialog.Builder(this, R.layout.layout_sample)
-                .setWidth(400)
-                .setHeight(400)
-                .setTitle("Title")
-                .setMessage("Message zhou shao qing")
-                .show();
+        String path = MUSIC + "/zhoushaoqing.txt";
+        Log.d(TAG, "name = " + FileUtils.getSizeString(1024 * 1024 * 100 + 1023, 3));
     }
 
     public void onBtn2(View view){
-
+        String path = MUSIC + "/zhoushaoqing.txt";
+        Log.d(TAG, "name = " + FileUtils.getSizeString(1024L * 1024 * 1024 * 3 + 4536, 3));
     }
 
 

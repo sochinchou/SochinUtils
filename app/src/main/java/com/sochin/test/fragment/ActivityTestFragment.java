@@ -22,6 +22,7 @@ import com.sochin.SecondActivity;
 import com.sochin.code.fragment.MyBaseFragment;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityTestFragment extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener{
@@ -162,7 +163,7 @@ public class ActivityTestFragment extends AppCompatActivity implements FragmentM
             int result = mFragmentManager.beginTransaction()
                     .setCustomAnimations(R.anim.anim_right_in, 0, R.anim.anim_right_in, 0)
                     .replace(R.id.frameLayout, fragment, tag)
-//                    .addToBackStack(tag)
+                    .addToBackStack(tag)
 //                    .commit();
             .commitAllowingStateLoss();
             Log.d(TAG, "replaceLeftFragment(MyBaseFragment) >>> result = " + result);

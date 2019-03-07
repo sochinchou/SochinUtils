@@ -239,10 +239,18 @@ public class ByteUtils {
 		return Arrays.copyOfRange(bytes, start, end);
 	}
 
+	public static byte hiByte(short in) {
+		return (byte)((in & 0xFF00) >> 8);
+	}
+
+	public static byte lowByte(short in) {
+		return (byte)((in & 0xFF));
+	}
+
 	public static short parseShort(String str) {
-		if (str == null)
+		if (str == null) {
 			return 0;
-		
+		}
 		short value = 0;
 		try {
 			value = Short.parseShort(str);
@@ -252,63 +260,62 @@ public class ByteUtils {
 	}
 
 	public static int parseInt(String str) {
-		if (str == null)
+		if (str == null) {
 			return 0;
-		
+		}
 		int value = 0;
 		try {
 			value = Integer.parseInt(str);
 		} catch (NumberFormatException e) {
+
 		}
 		return value;
 	}
 
 	public static long parseLong(String str) {
-		if (str == null)
+		if (str == null) {
 			return 0;
-		
+		}
 		long value = 0;
 		try {
 			value = Long.parseLong(str);
 		} catch (NumberFormatException e) {
+
 		}
 		return value;
 	}
 
-	public static byte hiByte(short in) {
-		return (byte)((in & 0xFF00) >> 8);
-	}
-
-	public static byte lowByte(short in) {
-		return (byte)((in & 0xFF));
-	}
-
-	public static float parseFloat(String str) {
-		if (str == null)
+	public static double parseFloat(String str) {
+		if (str == null) {
 			return 0;
-
-		float value = 0;
+		}
+		double value = 0;
 		try {
 			value = Float.parseFloat(str);
 		} catch (NumberFormatException e) {
+
 		}
 		return value;
 	}
 
-	public static double parseDouble(String str) {
-		if (str == null)
-			return 0;
 
+	public static double parseDouble(String str) {
+		if (str == null) {
+			return 0;
+		}
 		double value = 0;
 		try {
 			value = Double.parseDouble(str);
 		} catch (NumberFormatException e) {
+
 		}
 		return value;
 	}
 	
 	
-	
+
+
+
 	  public static byte[] str2Bcd(byte[] ascii, int asc_len) {
 		    byte[] bcd = new byte[asc_len / 2];
 		    int j = 0;

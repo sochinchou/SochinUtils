@@ -1,7 +1,6 @@
 package com.sochin.code.utils;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -28,197 +27,169 @@ import android.util.Log;
  */
 public class FileUtils {
 
-	private static final String TAG = "log";
+	private static final String TAG = "FileUtils";
 	private static final boolean isLog = true;
 
-	/** get available space from file */
-	public static long getAvailableSpace(File file) {
-		StatFs statFs = new StatFs(file.getAbsolutePath());
-		int blockSize = statFs.getBlockSize();
-		long nAvailable = (long) statFs.getAvailableBlocks() * (long) blockSize;
-		return nAvailable;
-	}
 
-	/** get available space from filepath */
-	public static long getAvailableSpace(String path) {
-		StatFs statFs = new StatFs(path);
-		int blockSize = statFs.getBlockSize();
-		long nAvailable = (long) statFs.getAvailableBlocks() * (long) blockSize;
-		return nAvailable;
-	}
-	
-	/** get total space from file */
-	public static long getTotalSpace(File file) {
-		StatFs statFs = new StatFs(file.getAbsolutePath());
-		int blockSize = statFs.getBlockSize();
-		long nTotal = (long) statFs.getBlockCount() * (long) blockSize;
-		return nTotal;
-	}
 
-	/** get total space from filepath*/
-	public static long getTotalSpace(String path) {
-		StatFs statFs = new StatFs(path);
-		int blockSize = statFs.getBlockSize();
-		long nTotal = (long) statFs.getBlockCount() * (long) blockSize;
-		return nTotal;
-	}
-	
-	/** check if sdcard is mounted */
-	public static boolean isSDCardExist() {
-		String status = Environment.getExternalStorageState();
-		boolean isExist = status.equals(Environment.MEDIA_MOUNTED);
-		log("isSDCardExist() >>>>> " + isExist);
-		return isExist;
-	}
-
-	public static Bitmap getImage(String filePathName) {
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inSampleSize = 8;
-
-		Bitmap scaledBitmap = null;
-		Bitmap iconBitmap = BitmapFactory.decodeFile(filePathName, options);
-
-		if (iconBitmap != null) {
-			scaledBitmap = Bitmap.createScaledBitmap(iconBitmap, 65, 50, false);
-			iconBitmap.recycle();
-		}
-
-		return scaledBitmap;
-
-	}
-
+	//************************************************************
+	//             file name operation
+	//************************************************************
 	/** Get filename from file path */
 	public static String getFileName(String filePath) {
 		String name = "";
-
 		if (filePath != null) {
-			int surfixPos = filePath.lastIndexOf("/");
-			if (surfixPos > 0)
-				name = filePath.substring(surfixPos + 1, filePath.length());
+			int slashPos = filePath.lastIndexOf("/");
+			if (slashPos > 0) {
+				name = filePath.substring(slashPos + 1);
+			}else{
+				log("getFileName(filePath) >>> filePath is invalid");
+			}
+		}else{
+			log("getFileName(filePath) >>> filePath is null");
 		}
-
 		return name;
 	}
 
 	/** Get filename from file */
 	public static String getFileName(File file) {
 		String name = "";
-
-		if (file != null)
+		if (file != null) {
 			name = file.getName();
-
+		}else{
+			log("getFileName(file) >>> file is null");
+		}
 		return name;
 	}
 
 	/** Get file suffix from file path */
-	public static String getFileSurfix(String filePath) {
-		String surfix = "";
-
+	public static String getFileSuffix(String filePath) {
+		String suffix = "";
 		if (filePath != null) {
-			int surfixPos = filePath.lastIndexOf(".");
-			int surfixPosDivider = filePath.lastIndexOf("/");
+			int dotPos = filePath.lastIndexOf(".");
+			int slashPos = filePath.lastIndexOf("/");
 			// invalid : abcdefg.hijk/lmn
-			if (surfixPos > 0 && surfixPos > surfixPosDivider)
-				surfix = filePath.substring(surfixPos + 1, filePath.length());
+			if (dotPos > 0 && dotPos > slashPos) {
+				suffix = filePath.substring(dotPos + 1, filePath.length());
+			}else{
+				log("getFileSuffix(filePath) >>> filePath is invalid");
+			}
+		}else{
+			log("getFileSuffix(filePath) >>> filePath is null");
 		}
-
-		return surfix.toLowerCase();
+		return suffix.toLowerCase();
 	}
 
 	/** Get file suffix from file path */
-	public static String getFileSurfix(File file) {
-		String surfix = "";
-
+	public static String getFileSuffix(File file) {
+		String suffix= "";
 		if (file != null) {
 			String filePath = file.getAbsolutePath();
-			surfix = getFileSurfix(filePath);
+			suffix = getFileSuffix(filePath);
+		}else{
+			log("getFileSuffix(file) >>> file is null");
 		}
-		return surfix.toLowerCase();
+		return suffix.toLowerCase();
 	}
 
-	
+
 	/** Get file name without suffix from file path */
-	public static String getFileNameWithoutSurfix(String filePath) {
-		String surfix = "";
-
+	public static String getFileNameWithoutSuffix(String filePath) {
+		String suffix = "";
 		if (filePath != null) {
-			int surfixPos = filePath.lastIndexOf(".");
-			int surfixPosDivider = filePath.lastIndexOf("/");
+			int dotPos = filePath.lastIndexOf(".");
+			int slashPos = filePath.lastIndexOf("/");
 			// invalid : abcdefg.hijk/lmn
-			if (surfixPos > 0 && surfixPos > surfixPosDivider)
-				surfix = filePath.substring(surfixPosDivider + 1, surfixPos);
+			if (dotPos > 0 && dotPos > slashPos) {
+				suffix = filePath.substring(slashPos + 1, dotPos);
+			}else{
+				log("getFileNameWithoutSuffix(filePath) >>> filePath is invalid");
+			}
+		}else{
+			log("getFileNameWithoutSuffix(filePath) >>> file is null");
 		}
-
-		return surfix;
+		return suffix;
 	}
-	
-	/** Get file name without suffix from file */
-	public static String getFileNameWithoutSurfix(File file) {
-		String surfix = "";
 
+	/** Get file name without suffix from file */
+	public static String getFileNameWithoutSuffix(File file) {
+		String suffix = "";
 		if (file != null) {
 			String filePath = file.getAbsolutePath();
-			surfix = getFileNameWithoutSurfix(filePath);
+			suffix = getFileNameWithoutSuffix(filePath);
+		}else{
+			log("getFileNameWithoutSuffix(file) >>> file is null");
 		}
-
-		return surfix;
-	}
-	
-	public static String getfileTimeString(File f) {
-		long nt = f.lastModified();
-		String st = "";
-
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		st = dateFormat.format(new Date(nt));
-
-		return st;
+		return suffix;
 	}
 
-	public static String getFileSizeString(long length) {
-
-		double size = length;
-		String unit = " B";
-
-		size = size / 1024;
-		if (size < 1024) {
-			unit = " KB";
-		} else {
-			size = size / 1024;
-			if (size < 1024) {
-				unit = " MB";
-			} else {
-				size = size / 1024;
-				unit = " GB";
-			}
-		}
-
-		return String.format("%.1f", size) + unit;
+	//************************************************************
+	//             file type
+	//************************************************************
+	/** whether the file is apk */
+	public static boolean isApk(File file) {
+		String suffix = getFileSuffix(file);
+		return suffix.equals("apk");
 	}
 
-	/** get the file size in string, ie.B, kB, MB, GB */
-	public static String getFileSizeString(File file) {
-		if (file == null || file.isDirectory())
-			return "";
+	/** whether the file is audio */
+	public static boolean isAudio(File file) {
+		String suffix = getFileSuffix(file);
+		return (suffix.equals("mp3") || suffix.equals("wma")
+				|| suffix.equals("ogg") || suffix.equals("wav") || (suffix
+				.equals("ape") || suffix.equals("aac")));
+	}
 
-		long length = file.length();
+	/** whether the file is video */
+	public static boolean isVideo(File file) {
+		String suffix = getFileSuffix(file);
+		return (suffix.equals("avi") || suffix.equals("mp4")
+				|| suffix.equals("3gp") || suffix.equals("rmvb")
+				|| suffix.equals("mov") || suffix.equals("wmv")
+				|| suffix.equals("mpeg") || suffix.equals("mpg")
+				|| suffix.equals("rm") || suffix.equals("vob")
+				|| suffix.equals("mkv") || suffix.equals("flv"));
+	}
 
-		double size = length;
-		String unit = " B";
+	/** whether the file is image */
+	public static boolean isImage(File file) {
+		String suffix = getFileSuffix(file);
+		return (suffix.equals("png") || suffix.equals("jpg")
+				|| suffix.equals("jpeg") || suffix.equals("bmp") || suffix
+				.equals("gif"));
+	}
 
-		size = size / 1024;
-		if (size < 1024) {
-			unit = " KB";
-		} else {
-			size = size / 1024;
-			if (size < 1024) {
-				unit = " MB";
-			} else {
-				size = size / 1024;
-				unit = " GB";
-			}
-		}
+	/** whether the fileItem is apk */
+	public static boolean isApk(FileItem file) {
+		String suffix = getFileSuffix(file.getName());
+		return suffix.equals("apk");
+	}
 
-		return String.format("%.1f", size) + unit;
+	/** whether the fileItem is audio */
+	public static boolean isAudio(FileItem file) {
+		String suffix = getFileSuffix(file.getName());
+		return (suffix.equals("mp3") || suffix.equals("wma")
+				|| suffix.equals("ogg") || suffix.equals("wav")
+				|| suffix.equals("ape") || suffix.equals("aac"));
+	}
+
+	/** whether the fileItem is video */
+	public static boolean isVideo(FileItem file) {
+		String suffix = getFileSuffix(file.getName());
+		return (suffix.equals("avi") || suffix.equals("mp4")
+				|| suffix.equals("3gp") || suffix.equals("rmvb")
+				|| suffix.equals("mov") || suffix.equals("wmv")
+				|| suffix.equals("mpeg") || suffix.equals("mpg")
+				|| suffix.equals("rm") || suffix.equals("vob")
+				|| suffix.equals("mkv") || suffix.equals("flv"));
+	}
+
+	/** whether the fileItem is image */
+	public static boolean isImage(FileItem file) {
+		String suffix = getFileSuffix(file.getName());
+		return (suffix.equals("png") || suffix.equals("jpg")
+				|| suffix.equals("jpeg") || suffix.equals("bmp") || suffix
+				.equals("gif"));
 	}
 
 	public static boolean isMedia(File file) {
@@ -229,151 +200,10 @@ public class FileUtils {
 		return isAudio(item) || isImage(item) || isVideo(item);
 	}
 
-	
-	
-
-	public static boolean isAudioIntheFolder(File folder){
-		File[] files = folder.listFiles();
-		if(files == null || files.length < 1)
-			return false;
-		
-		for(File file : files){
-			if(isAudio(file))
-				return true;
-		}
-		
-		return false;
-	}
-	
-
-	public static boolean isVideoIntheFolder(File folder){
-		File[] files = folder.listFiles();
-		if(files == null || files.length < 1)
-			return false;
-		
-		for(File file : files){
-			if(isVideo(file))
-				return true;
-		}
-		
-		return false;
-	}
-
-
-	public static boolean isImageInTheFolder(File folder){
-		File[] files = folder.listFiles();
-		if(files == null || files.length < 1)
-			return false;
-		
-		for(File file : files){
-			if(isImage(file))
-				return true;
-		}
-		
-		return false;
-	}
-	
-	
-	public static ArrayList<String> getAudioList(File folder){
-		ArrayList<String> list = new ArrayList<String>();
-		File[] files = folder.listFiles();
-		for (File file : files) {
-			if (FileUtils.isAudio(file))
-				list.add(file.getAbsolutePath());
-		}
-		return list;
-	}
-
-	public static ArrayList<String> getVideoList(File folder) {
-		ArrayList<String> list = new ArrayList<String>();
-		File[] files = folder.listFiles();
-		for (File file : files) {
-			if (FileUtils.isVideo(file))
-				list.add(file.getAbsolutePath());
-		}
-		return list;
-	}
-
-	public static ArrayList<String> getImageList(File folder) {
-		ArrayList<String> list = new ArrayList<String>();
-		File[] files = folder.listFiles();
-		for (File file : files) {
-			if (FileUtils.isImage(file))
-				list.add(file.getAbsolutePath());
-		}
-		return list;
-	}
-
-	/** whether the file is apk */
-	public static boolean isApk(File file) {
-		String surfix = getFileSurfix(file);
-		return surfix.equals("apk");
-	}
-
-	/** whether the file is audio */
-	public static boolean isAudio(File file) {
-		String surfix = getFileSurfix(file);
-		return (surfix.equals("mp3") || surfix.equals("wma")
-				|| surfix.equals("ogg") || surfix.equals("wav") || (surfix
-				.equals("ape") || surfix.equals("aac")));
-	}
-
-	/** whether the file is video */
-	public static boolean isVideo(File file) {
-		String surfix = getFileSurfix(file);
-		return (surfix.equals("avi") || surfix.equals("mp4")
-				|| surfix.equals("3gp") || surfix.equals("rmvb")
-				|| surfix.equals("mov") || surfix.equals("wmv")
-				|| surfix.equals("mpeg") || surfix.equals("mpg")
-				|| surfix.equals("rm") || surfix.equals("vob")
-				|| surfix.equals("mkv") || surfix.equals("flv"));
-	}
-
-	/** whether the file is image */
-	public static boolean isImage(File file) {
-		String surfix = getFileSurfix(file);
-		return (surfix.equals("png") || surfix.equals("jpg")
-				|| surfix.equals("jpeg") || surfix.equals("bmp") || surfix
-					.equals("gif"));
-	}
-
-	/** whether the fileItem is apk */
-	public static boolean isApk(FileItem file) {
-		String surfix = getFileSurfix(file.getName());
-		return surfix.equals("apk");
-	}
-
-	/** whether the fileItem is audio */
-	public static boolean isAudio(FileItem file) {
-		String suffix = getFileSurfix(file.getName());
-		return (suffix.equals("mp3") || suffix.equals("wma")
-				|| suffix.equals("ogg") || suffix.equals("wav")
-				|| suffix.equals("ape") || suffix.equals("aac"));
-	}
-
-	/** whether the fileItem is video */
-	public static boolean isVideo(FileItem file) {
-		String surfix = getFileSurfix(file.getName());
-		return (surfix.equals("avi") || surfix.equals("mp4")
-				|| surfix.equals("3gp") || surfix.equals("rmvb")
-				|| surfix.equals("mov") || surfix.equals("wmv")
-				|| surfix.equals("mpeg") || surfix.equals("mpg")
-				|| surfix.equals("rm") || surfix.equals("vob")
-				|| surfix.equals("mkv") || surfix.equals("flv"));
-	}
-
-	/** whether the fileItem is image */
-	public static boolean isImage(FileItem file) {
-		String surfix = getFileSurfix(file.getName());
-		return (surfix.equals("png") || surfix.equals("jpg")
-				|| surfix.equals("jpeg") || surfix.equals("bmp") || surfix
-					.equals("gif"));
-	}
-
 	public static String getMIMEType(FileItem item) {
 
 		String fName = item.getName();
-		String end = getFileSurfix(fName);
+		String end = getFileSuffix(fName);
 
 		if (end.equals("png") || end.equals("jpg") || end.equals("jpeg")
 				|| end.equals("bmp") || end.equals("gif")) {
@@ -409,6 +239,259 @@ public class FileUtils {
 		}
 	}
 
+	public static boolean isAudioIntheFolder(File folder){
+		if(folder != null && folder.exists() && folder.isDirectory()){
+			File[] files = folder.listFiles();
+			if(files == null || files.length < 1) {
+				return false;
+			}
+			for(File file : files){
+				if(isAudio(file))
+					return true;
+			}
+		}
+		return false;
+	}
+
+
+	public static boolean isVideoIntheFolder(File folder){
+		if(folder != null && folder.exists() && folder.isDirectory()){
+			File[] files = folder.listFiles();
+			if(files == null || files.length < 1) {
+				return false;
+			}
+			for(File file : files){
+				if(isVideo(file)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+
+	public static boolean isImageInTheFolder(File folder){
+		if(folder != null && folder.exists() && folder.isDirectory()){
+			File[] files = folder.listFiles();
+			if(files == null || files.length < 1) {
+				return false;
+			}
+			for(File file : files){
+				if(isImage(file)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public static ArrayList<String> getAudioList(File folder){
+		if(folder != null && folder.exists() && folder.isDirectory()){
+			ArrayList<String> list = new ArrayList<String>();
+			File[] files = folder.listFiles();
+			for (File file : files) {
+				if (FileUtils.isAudio(file)) {
+					list.add(file.getAbsolutePath());
+				}
+			}
+			return list;
+		}
+
+		return null;
+	}
+
+	public static ArrayList<String> getVideoList(File folder) {
+		if(folder != null && folder.exists() && folder.isDirectory()){
+			ArrayList<String> list = new ArrayList<String>();
+			File[] files = folder.listFiles();
+			for (File file : files) {
+				if (FileUtils.isVideo(file)) {
+					list.add(file.getAbsolutePath());
+				}
+			}
+			return list;
+		}
+
+		return null;
+	}
+
+	public static ArrayList<String> getImageList(File folder) {
+		if(folder != null && folder.exists() && folder.isDirectory()){
+			ArrayList<String> list = new ArrayList<String>();
+			File[] files = folder.listFiles();
+			for (File file : files) {
+				if (FileUtils.isImage(file)) {
+					list.add(file.getAbsolutePath());
+				}
+			}
+			return list;
+		}
+
+		return null;
+	}
+
+	//************************************************************
+	//             file size
+	//************************************************************
+	/**
+	 * 获取文件大小
+	 * @param file
+	 * @return
+	 */
+	public static long getFileSize(File file){
+		long totalSize = 0;
+		if(file != null && file.exists()){
+			totalSize = file.length();
+		}else{
+			log("getFileSize(file) >>> file is null or not exist");
+		}
+		return totalSize;
+	}
+
+	/**
+	 * 获取目录中文件总大小
+	 * @param file
+	 * @return
+	 */
+	public static long getFolderSize(File file){
+		long totalSize = 0;
+
+		if(file != null && file.exists()){
+			if(file.isDirectory()){
+				File[] files = file.listFiles();
+
+				if(files != null && files.length > 0){
+					for(File f : files){
+						totalSize += getFolderSize(f);
+					}
+				}
+			}else{
+				totalSize += file.length();
+			}
+		}else{
+			log("getFolderSize(file) >>> file is null or not exist");
+		}
+
+		return totalSize;
+	}
+
+	/** get available space from file */
+	public static long getAvailableSpace(File file) {
+		StatFs statFs = new StatFs(file.getAbsolutePath());
+		long nAvailable = statFs.getAvailableBytes();
+		return nAvailable;
+	}
+
+	/** get available space from filepath */
+	public static long getAvailableSpace(String path) {
+		StatFs statFs = new StatFs(path);
+		long nAvailable = statFs.getAvailableBytes();
+		return nAvailable;
+	}
+	
+	/** get total space from file */
+	public static long getTotalSpace(File file) {
+		StatFs statFs = new StatFs(file.getAbsolutePath());
+		long nTotal = (long) statFs.getTotalBytes();
+		return nTotal;
+	}
+
+	/** get total space from filepath*/
+	public static long getTotalSpace(String path) {
+		StatFs statFs = new StatFs(path);
+		long nTotal = (long) statFs.getTotalBytes();
+		return nTotal;
+	}
+	
+	/** check if sdcard is mounted */
+	public static boolean isSDCardExist() {
+		String status = Environment.getExternalStorageState();
+		boolean isExist = status.equals(Environment.MEDIA_MOUNTED);
+		log("isSDCardExist() >>>>> " + isExist);
+		return isExist;
+	}
+
+
+	public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	public static String getfileTimeString(File file) {
+		if(file != null && file.exists()){
+			return dateFormat.format(new Date(file.lastModified()));
+		}else{
+			return null;
+		}
+	}
+
+
+	public static final int UNIT_NONE = 0; //自动选择单位
+	public static final int UNIT_K = 1; //K Byte
+	public static final int UNIT_M = 2; //M Byte
+	public static final int UNIT_G = 3; //G Byte
+
+	public static String getFileSizeString(File file){
+		if(file != null && file.exists()){
+			return getSizeString(file.length(), UNIT_NONE);
+		}
+		return "";
+	}
+
+	public static String getSizeString(long length, int unitType) {
+
+		double size = length;
+		String unit = " KB";
+
+		switch (unitType) {
+			case UNIT_NONE:
+				return getSizeString(length);
+
+			case UNIT_K:
+				unit = " KB";
+				size = size / (1 << 10);
+				Log.d(TAG, "size KB = " + size);
+				break;
+
+			case UNIT_M:
+				unit = " MB";
+				size = size / (1 << 20);
+				Log.d(TAG, "size MB = " + size);
+				break;
+
+			case UNIT_G:
+				unit = " GB";
+				size = size / (1 << 30);
+				Log.d(TAG, "size GB = " + size);
+				break;
+		}
+
+		return String.format("%.1f", size) + unit;
+
+	}
+
+
+	public static String getSizeString(long length) {
+		String unit = null;
+		length = length / 1024;
+
+		if(length < 1024){
+			unit = " KB";
+		}else{
+			length = length / 1024;
+			if (length < 1024) {
+				unit = " MB";
+			} else {
+				length = length / 1024;
+				unit = " GB";
+			}
+		}
+		return length + unit;
+	}
+
+
+
+	
+
+	//************************************************************
+	//             get file
+	//************************************************************
 	/**
 	 * 根据路径构建文件，如果路径对应的文件不存在，返回null
 	 * @param dirFile
@@ -416,6 +499,10 @@ public class FileUtils {
 	 * @return
 	 */
 	public static File getFile(File dirFile, String fileName){
+		if(dirFile == null || fileName == null){
+			log("getFile(dirFile,fileName) >>> dirFile or fileName is null");
+			return null;
+		}
 		File file = new File(dirFile, fileName);
 		if(file.exists()){
 			return file;
@@ -431,6 +518,10 @@ public class FileUtils {
 	 * @return
 	 */
 	public static File getFile(String dirPath, String fileName){
+		if(dirPath == null || fileName == null){
+			log("getFile(dirPath,fileName) >>> dirPath or fileName is null");
+			return null;
+		}
 		File file = new File(dirPath, fileName);
 		if(file.exists()){
 			return file;
@@ -445,6 +536,10 @@ public class FileUtils {
 	 * @return
 	 */
 	public static File getFile(String filePath){
+		if(filePath == null){
+			log("getFile(filePath) >>> filePath is null");
+			return null;
+		}
 		File file = new File(filePath);
 		if(file.exists()){
 			return file;
@@ -460,9 +555,8 @@ public class FileUtils {
 	 * @return
 	 */
 	public static File getFolder(String folderPath){
-		log("getFolder(folderPath) >>> " + folderPath);
 		if (folderPath == null) {
-			log("getFolder(folderPath) >>> folderPath is null, return");
+			log("getFolder(folderPath) >>> folderPath is null");
 			return null;
 		}
 		
@@ -481,6 +575,10 @@ public class FileUtils {
 		}
 	}
 
+
+	//************************************************************
+	//             create file
+	//************************************************************
 	/**
 	 * 根据路径构建文件，如果路径对应的文件不存在，则新建
 	 * @param dirFile
@@ -593,6 +691,10 @@ public class FileUtils {
 			
 			if(!newFile.exists()){
 				int pos = filePath.lastIndexOf("/");
+				if(pos < 0){
+					log("createFile(filePath) >>> filePath is invalid, return");
+					return null;
+				}
 				String dirPath = filePath.substring(0, pos);
 				String fileName = filePath.substring(pos + 1);
 				return createFile(dirPath, fileName);
@@ -640,32 +742,15 @@ public class FileUtils {
 		
 	}
 
-	/**
-	 * 删除文件或文件夹
-	 * @param file
-	 * @return
-	 */
-	public static boolean deleteFile(File file) {
-		log("deleteFile(file) >>> " + file);
-		if (file == null) {
-			log("deleteFile(file) >>> file is null， return");
-			return false;
-		}
-		
-		if (file.isDirectory()) {
-			File[] files = file.listFiles();
-			for (File f : files)
-				deleteFile(f);
-			return file.delete();
-		} else {
-			return file.delete();
-		}
-	}
 
+
+	//************************************************************
+	//             copy file with channel
+	//************************************************************
 	/**
-	 * copy the content fo a file to another file
-	 * 
-	 * 
+	 * copy the content of source to target.
+	 * with channel
+	 *
 	 * @param source
 	 * @param target
 	 */
@@ -673,7 +758,26 @@ public class FileUtils {
 		log("copyFileChannel() >>>>> src : " + source + " ---> tar : " + target);
 
 		if (source == null || target == null) {
-			log("copyFileChannel() >>>>> source or target is null");
+			log("copyFileChannel() >>>>> source or target is null, return");
+			return;
+		}
+
+		if(!source.exists()){
+			log("copyFileChannel() >>>>> source is not exist, return");
+			return;
+		}
+
+		if(!target.exists()){
+			log("copyFileChannel() >>>>> source is not exist, return");
+			try {
+				target.createNewFile();
+			} catch (IOException e) {
+				log("copyFileChannel() >>> [IOException]");
+			}
+		}
+
+		if(!source.isFile() || !target.isFile()){
+			log("copyFileChannel() >>>>> source or target is not a file");
 			return;
 		}
 
@@ -691,7 +795,8 @@ public class FileUtils {
 	}
 
 	/**
-	 * copy all in the source folder to the target folder source is not included
+	 * copy all files in the source folder to the target folder, source itself is not included.
+	 * with channel
 	 * 
 	 * @param source
 	 * @param target
@@ -701,12 +806,23 @@ public class FileUtils {
 		log("copyDirChannel() >>>>> src : " + source + " ---> tar : " + target);
 
 		if (source == null || target == null) {
-			log("copyDirChannel() >>>>> source or target is null");
+			log("copyDirChannel() >>>>> source or target is null, return");
 			return;
 		}
 
-		if (!target.exists())
+		if(!source.exists()){
+			log("copyDirChannel() >>>>> source is not exist, return");
+			return;
+		}
+
+		if (!target.exists()) {
+			log("copyDirChannel() >>>>> target is not exist, mkdirs");
 			target.mkdirs();
+		}
+
+		if(!source.isDirectory() || !target.isDirectory()){
+			log("copyDirChannel() >>>>> source or target is not a directory");
+		}
 
 		File[] files = source.listFiles();
 
@@ -715,36 +831,162 @@ public class FileUtils {
 			File srcFile = theFile;
 			File tarFile = new File(target, theFile.getName());
 
-			if (theFile.isFile())
+			if (theFile.isFile()) {
 				copyFileChannel(srcFile, tarFile);
-
-			if (theFile.isDirectory())
+			}else if(theFile.isDirectory()) {
 				copyDirChannel(srcFile, tarFile);
+			}
 		}
 	}
 
 	/**
-	 * copy the source to the target folder ,source is included
-	 * 
+	 * copy the source file or directory to the target directory ,source is included.
+	 * with channel
+	 *
 	 * @param source
 	 * @param target
 	 */
-	public static void copyDirToDir(File source, File target) {
-		log("copyDirToDir() >>>>> src : " + source + " ---> tar : " + target);
+	public static void copyFileToDirChannel(File source, File target) {
+		log("copyFileToDirChannel() >>>>> src : " + source + " ---> tar : " + target);
 
 		if (source == null || target == null) {
-			log("copyDirToDir() >>>>> source or target is null");
+			log("copyFileToDirChannel() >>>>> source or target is null, return");
 			return;
 		}
 
-		File src = source;
-		File tar = new File(target, src.getName());
-		copyDirChannel(src, tar);
+		if(!source.exists()){
+			log("copyFileToDirChannel() >>>>> source is not exist, return");
+			return;
+		}
+
+		if (!target.exists()) {
+			log("copyFileToDirChannel() >>>>> target is not exist, mkdirs");
+			target.mkdirs();
+		}
+
+		if(!target.isDirectory()){
+			log("copyFileToDirChannel() >>>>> target is not a directory, return");
+			return;
+		}
+
+		File srcFile = source;
+		File tarDir = new File(target, srcFile.getName());
+
+		if(srcFile.isDirectory()){
+			copyDirChannel(srcFile, tarDir);
+		}else{
+			copyFileChannel(srcFile, tarDir);
+		}
+
+	}
+
+	//************************************************************
+	//             copy file normal
+	//************************************************************
+	/**
+	 * copy the content of source to target.
+	 *
+	 * @param source
+	 * @param target
+	 */
+	public static void copyFile(File source, File target) {
+		log("copyFile() >>>>> src : " + source + " ---> tar : " + target);
+
+		if (source == null || target == null) {
+			log("copyFile() >>>>> source or target is null, return");
+			return;
+		}
+
+		if(!source.exists()){
+			log("copyFile() >>>>> source is not exist, return");
+			return;
+		}
+
+		if(!target.exists()){
+			log("copyFile() >>>>> source is not exist, return");
+			try {
+				target.createNewFile();
+			} catch (IOException e) {
+				log("copyFile() >>> [IOException]");
+			}
+		}
+
+		if(!source.isFile() || !target.isFile()){
+			log("copyFile() >>>>> source or target is not a file");
+			return;
+		}
+
+		FileInputStream fis = null;
+		FileOutputStream fos = null;
+		int len = -1;
+		byte[] buffer = new byte[4096];
+		try{
+			fis = new FileInputStream(source);
+			fos = new FileOutputStream(target);
+			while((len = fis.read(buffer)) != -1){
+				fos.write(buffer, 0, len);
+			}
+		}catch(FileNotFoundException e){
+			Log.d(TAG, "copyFile() >>>>> FileNotFoundException");
+		}catch(IOException e){
+			Log.d(TAG, "copyFile() >>>>> IOException");
+		}finally{
+			try{
+				fis.close();
+				fos.close();
+			}catch(IOException e){
+				Log.d(TAG, "copyFile() >>>>> IOException, close");
+			}
+		}
 	}
 
 	/**
-	 * copy a file to a folder
-	 * 
+	 * copy all files in the source folder to the target folder, source itself is not included.
+	 *
+	 * @param source
+	 * @param target
+	 */
+
+	public static void copyDir(File source, File target) {
+		log("copyDir() >>>>> src : " + source + " ---> tar : " + target);
+
+		if (source == null || target == null) {
+			log("copyDir() >>>>> source or target is null, return");
+			return;
+		}
+
+		if(!source.exists()){
+			log("copyDir() >>>>> source is not exist, return");
+			return;
+		}
+
+		if (!target.exists()) {
+			log("copyDir() >>>>> target is not exist, mkdirs");
+			target.mkdirs();
+		}
+
+		if(!source.isDirectory() || !target.isDirectory()){
+			log("copyDir() >>>>> source or target is not a directory");
+		}
+
+		File[] files = source.listFiles();
+
+		for (File theFile : files) {
+
+			File srcFile = theFile;
+			File tarFile = new File(target, theFile.getName());
+
+			if (theFile.isFile()) {
+				copyFile(srcFile, tarFile);
+			}else if(theFile.isDirectory()) {
+				copyDir(srcFile, tarFile);
+			}
+		}
+	}
+
+	/**
+	 * copy the source file or directory to the target directory ,source is included.
+	 *
 	 * @param source
 	 * @param target
 	 */
@@ -752,27 +994,47 @@ public class FileUtils {
 		log("copyFileToDir() >>>>> src : " + source + " ---> tar : " + target);
 
 		if (source == null || target == null) {
-			log("copyFileToDir() >>>>> source or target is null");
+			log("copyFileToDir() >>>>> source or target is null, return");
 			return;
 		}
 
-		File src = source;
-		File tar = new File(target, src.getName());
-		if (!tar.exists()) {
-			try {
-				tar.createNewFile();
-			} catch (IOException e) {
-				log("copyFileToDir() >>>>> IOException");
-				return;
-			}
+		if(!source.exists()){
+			log("copyFileToDir() >>>>> source is not exist, return");
+			return;
 		}
-		copyFileChannel(src, tar);
-	}
 
-	
+		if (!target.exists()) {
+			log("copyFileToDir() >>>>> target is not exist, mkdirs");
+			target.mkdirs();
+		}
+
+		if(!target.isDirectory()){
+			log("copyFileToDir() >>>>> target is not a directory, return");
+			return;
+		}
+
+		File srcFile = source;
+		File tarDir = new File(target, srcFile.getName());
+
+		if(srcFile.isDirectory()){
+			copyDir(srcFile, tarDir);
+		}else{
+			copyFile(srcFile, tarDir);
+		}
+
+	}
+	//--------------------------------------------------------
+
+
+
+
+
+	//************************************************************
+	//             zip file
+	//************************************************************
+
 	/**
 	 * zip file
-	 * @param message
 	 */
 	public static void zipFile(String pathSrcFolder, String pathTargetZipFile){
 		
@@ -819,9 +1081,40 @@ public class FileUtils {
 			Log.d(TAG, "unzipFile() >>> file is null");
 		}
 	}
-	
-	
-	
+
+	//--------------------------------------------------------
+
+	/**
+	 * 删除文件或文件夹
+	 * @param file
+	 * @return
+	 */
+	public static boolean deleteFile(File file) {
+		log("deleteFile(file) >>> " + file);
+		if (file == null) {
+			log("deleteFile(file) >>> file is null，return");
+			return false;
+		}
+
+		if (file.isDirectory()) {
+			File[] files = file.listFiles();
+			for (File f : files)
+				deleteFile(f);
+			return file.delete();
+		} else {
+			return file.delete();
+		}
+	}
+
+
+
+
+
+
+
+
+
+
 	private static void log(String message) {
 		if (isLog)
 			Log.d(TAG, message);
@@ -832,43 +1125,6 @@ public class FileUtils {
 			Log.d(tag, message);
 	}
 
-	public static long parseLong(String str) {
-		if (str == null)
-			return 0;
 
-		long value = 0;
-		try {
-			value = Long.parseLong(str);
-		} catch (NumberFormatException e) {
-
-		}
-		return value;
-	}
-
-	public static int parseInt(String str) {
-		if (str == null)
-			return 0;
-
-		int value = 0;
-		try {
-			value = Integer.parseInt(str);
-		} catch (NumberFormatException e) {
-
-		}
-		return value;
-	}
-
-	public static double parseDouble(String str) {
-		if (str == null)
-			return 0;
-
-		double value = 0;
-		try {
-			value = Double.parseDouble(str);
-		} catch (NumberFormatException e) {
-
-		}
-		return value;
-	}
 
 }

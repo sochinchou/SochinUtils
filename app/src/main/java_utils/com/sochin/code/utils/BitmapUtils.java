@@ -338,4 +338,20 @@ public class BitmapUtils {
         }
     }
 
+
+    public static Bitmap getImage(String filePathName) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 8;
+
+        Bitmap scaledBitmap = null;
+        Bitmap iconBitmap = BitmapFactory.decodeFile(filePathName, options);
+
+        if (iconBitmap != null) {
+            scaledBitmap = Bitmap.createScaledBitmap(iconBitmap, 65, 50, false);
+            iconBitmap.recycle();
+        }
+
+        return scaledBitmap;
+    }
+
 }
