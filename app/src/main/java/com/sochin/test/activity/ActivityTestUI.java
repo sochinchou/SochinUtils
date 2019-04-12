@@ -1,5 +1,6 @@
 package com.sochin.test.activity;
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,11 +11,13 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sochin.R;
 import com.sochin.code.dialog.CustomDialog;
+import com.sochin.code.dialog.MyDialogSimple;
 import com.sochin.code.recyclerview.ItemInfo;
 import com.sochin.code.recyclerview.MyBaseAdapter;
 import com.sochin.code.recyclerview.MyBaseAdapterSimple;
@@ -47,6 +50,8 @@ public class ActivityTestUI extends AppCompatActivity {
     TextView txt1;
     MyBaseAdapterSimple mAdapter;
 
+    private boolean isScrolled = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, PREFIX + "onCreate() >>>>>");
@@ -56,12 +61,48 @@ public class ActivityTestUI extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-//        ArrayList<ItemInfo> data = new ArrayList<>();
-//        for(int i = 0; i < 20; i ++){
-//            data.add(new ItemInfo("AAAAAAAAAAAName " + String.valueOf(i),i, null));
-//        }
-//        mAdapter = new MyBaseAdapterSimple(this, data);
-//        listView.setAdapter(mAdapter);
+        ArrayList<ItemInfo> data = new ArrayList<>();
+        for(int i = 0; i < 100; i ++){
+            data.add(new ItemInfo("AAAAAAAAAAAName " + String.valueOf(i),i, null));
+        }
+        mAdapter = new MyBaseAdapterSimple(this, data);
+        listView.setAdapter(mAdapter);
+
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                Log.d(TAG, PREFIX + "onScrollStateChanged() >>> scrollState = " + scrollState);
+
+                if(scrollState == 0){
+                    selectionAdjust();
+                    isScrolled = false;
+                }else if(scrollState == 1){
+                    isScrolled = true;
+                }else if(scrollState == 2){
+                    isScrolled = true;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                Log.d(TAG, PREFIX + "onScroll() >>> firstVisibleItem = " + firstVisibleItem
+                + ", visibleItemCount = " + visibleItemCount + ", totalItemCount = " + totalItemCount);
+
+                mLastScrollY = getTopItemScrollY(view);
+                mPreviousFirstVisibleItem = firstVisibleItem;
+
+                Log.d(TAG, "|||||||||||||| scrollY = " + view.getScrollY());
+                View child = view.getChildAt(0);
+                if(child != null){
+                    Log.d(TAG, "|||||||||||||| top = " + child.getTop() + " scrollY = " + child.getScrollY());
+                }
+            }
+        });
+
+
+
+        listView.setFastScrollEnabled(true);
 //
 //        txt1.setText("AAAAAAAAAAAAAAAAAAAAA");
 //        IntentFilter filter = new IntentFilter();
@@ -69,6 +110,39 @@ public class ActivityTestUI extends AppCompatActivity {
 //        registerReceiver(mBroadcastReceiver, filter);
 
     }
+
+    private int mLastScrollY;
+    private int mPreviousFirstVisibleItem;
+    private int mListItemHeight;
+
+    private void selectionAdjust() {
+        int position = mPreviousFirstVisibleItem;
+        if (Math.abs(mLastScrollY) > mListItemHeight / 2) {
+            position += 1;
+        }
+        Log.d(TAG, "selectionAdjust() >>> mListItemHeight = " + mListItemHeight + " position = " + position);
+//        listView.setSelection(position);
+
+        final int pos = position;
+        listView.post(new Runnable() {
+            @Override
+            public void run() {
+                listView.smoothScrollToPosition(pos);
+            }
+        });
+
+    }
+
+    private int getTopItemScrollY(AbsListView listView) {
+        View topChild = listView.getChildAt(0);
+        if (topChild != null) {
+            mListItemHeight = topChild.getHeight();
+            return topChild.getTop();
+        } else {
+            return 0;
+        }
+    }
+
 
     @Override
     protected void onStart() {
@@ -128,9 +202,9 @@ public class ActivityTestUI extends AppCompatActivity {
     public void onBtn0(View view){
 //        new FragmentDialog().show(getSupportFragmentManager(), null);
 
-        String path = MUSIC + "/zhoushaoqing.txt";
-        Log.d(TAG, "name = " + FileUtils.getSizeString(1900, 3));
-        Log.d(TAG, "name = " + (1 << 10));
+        Dialog dialog = new MyDialogSimple(this);
+        dialog.setCancelable(false);
+        dialog.show();
     }
 
     public void onBtn1(View view){
@@ -230,4 +304,7 @@ public class ActivityTestUI extends AppCompatActivity {
             }
         }
     };
+
+
+
 }
