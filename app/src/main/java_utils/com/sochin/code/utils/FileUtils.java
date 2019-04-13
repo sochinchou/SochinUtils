@@ -334,46 +334,29 @@ public class FileUtils {
 	//             file size
 	//************************************************************
 	/**
-	 * 获取文件大小
+	 * 获取文件或目录大小
 	 * @param file
 	 * @return
 	 */
 	public static long getFileSize(File file){
 		long totalSize = 0;
 		if(file != null && file.exists()){
-			totalSize = file.length();
-		}else{
-			log("getFileSize(file) >>> file is null or not exist");
-		}
-		return totalSize;
-	}
 
-	/**
-	 * 获取目录中文件总大小
-	 * @param file
-	 * @return
-	 */
-	public static long getFolderSize(File file){
-		long totalSize = 0;
-
-		if(file != null && file.exists()){
 			if(file.isDirectory()){
 				File[] files = file.listFiles();
-
 				if(files != null && files.length > 0){
 					for(File f : files){
-						totalSize += getFolderSize(f);
+						totalSize += getFileSize(f);
 					}
 				}
 			}else{
-				totalSize += file.length();
+				totalSize = file.length();
 			}
-		}else{
-			log("getFolderSize(file) >>> file is null or not exist");
 		}
 
 		return totalSize;
 	}
+
 
 	/** get available space from file */
 	public static long getAvailableSpace(File file) {
@@ -487,7 +470,7 @@ public class FileUtils {
 
 
 
-	
+
 
 	//************************************************************
 	//             get file
@@ -1126,5 +1109,8 @@ public class FileUtils {
 	}
 
 
+	public interface Callback{
+		public void onCopyProgress(int total, int progress);
+	}
 
 }

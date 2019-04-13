@@ -7,10 +7,15 @@
     android:background="#00f"
     >
 
-    <include
-        layout="@layout/include_music_tab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="246dp" />
+
+    <TextView
+        android:id="@+id/txt"
+        android:ellipsize="marquee"
+        android:textSize="30sp"
+        android:background="#ff0"
+        android:textColor="#f00"
+        android:singleLine="true"
+        android:text="zhoushaoqinghellosochin"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content" />
 </android.support.constraint.ConstraintLayout>

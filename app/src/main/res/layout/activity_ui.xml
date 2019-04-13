@@ -5,39 +5,41 @@
     android:background="#fff"
     >
 
+
+
     <TextView
         android:id="@+id/txt1"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:paddingLeft="60dp"
-        android:drawableLeft="@drawable/drawable_1"
-        android:drawablePadding="30dp"
-        android:textColor="#000"
-        android:text="sdfsdfsdfsdfsfsfsdf"
-        />
-    <TextView
-        android:id="@+id/txt2"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:paddingLeft="60dp"
-        android:drawableLeft="@drawable/drawable_1"
-        android:textColor="#000"
-        android:text="sdfsdfsdfsdfsfsfsdf"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="#000"
         />
 
-    <ListView
-        android:id="@+id/list1"
-        android:layout_width="match_parent"
-        android:layout_height="400dp">
 
-    </ListView>
+
 
 
     <LinearLayout
         style="@style/LinearVMW"
         android:layout_alignParentTop="true"
-        android:visibility="gone"
+        android:layout_weight="1"
         >
+
+        <ListView
+            android:id="@+id/list1"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:divider="#000"
+            android:dividerHeight="1dp"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true"
+            android:fadeScrollbars="false"
+            android:scrollbarSize="50dp"
+            android:scrollbars="none"
+            android:scrollbarThumbVertical="@color/red"
+            >
+
+        </ListView>
 
 <!--
         <RadioGroup

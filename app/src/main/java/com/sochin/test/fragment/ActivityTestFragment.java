@@ -131,24 +131,15 @@ public class ActivityTestFragment extends AppCompatActivity implements FragmentM
 //        Log.d(TAG, "onBackStackChanged() >>>>>");
     }
 
-    private int index = 1;
-    public void initFragment(){
-        Log.d(TAG, "---------- initFragment() >>> ");
-//        if(isStateSaved){
-            if(index == 4){
-                index = 1;
-            }
-            replaceLeftFragment(index ++);
-//        }
-    }
 
-    public void replaceLeftFragment(int index){
-        MyBaseFragment fragment = FragmentFactory.getFragmentbyIndex(index, null);
+
+    public void replaceLeftFragment(int index, Bundle bundle){
+        MyBaseFragment fragment = FragmentFactory.getFragmentbyIndex(index, bundle);
         if(fragment != null){
             String tag = fragment.getFragmentTag();
             int result = mFragmentManager.beginTransaction()
                     .replace(R.id.frameLayout, fragment, tag)
-//                    .addToBackStack(tag)
+                    .addToBackStack(tag)
                     .commit();
 //                    .commitAllowingStateLoss();
             Log.d(TAG, "replaceLeftFragment(int) >>> result = " + result);
@@ -272,16 +263,16 @@ public class ActivityTestFragment extends AppCompatActivity implements FragmentM
 
     public void onBtn0(View view){
 //        replaceLeftFragment(fragmentRed);
-        replaceLeftFragment(fragmentRed);
+        replaceLeftFragment(FragmentFactory.FRAGMENT_RED, new Bundle());
     }
 
     public void onBtn1(View view){
 //        replaceLeftFragment(fragmentGreen);
-        replaceLeftFragment(fragmentGreen);
+        replaceLeftFragment(FragmentFactory.FRAGMENT_GREEN, new Bundle());
     }
 
     public void onBtn2(View view){
-        replaceLeftFragment(fragmentBlue);
+        replaceLeftFragment(FragmentFactory.FRAGMENT_BLUE, new Bundle());
     }
 
     public void onBtn3(View view){

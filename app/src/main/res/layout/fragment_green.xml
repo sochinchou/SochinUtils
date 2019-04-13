@@ -5,23 +5,5 @@
     android:background="#0f0"
     >
 
-    <FrameLayout
-        android:id="@+id/fl"
-        android:layout_margin="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <include
-            layout="@layout/include_music_tab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btnClear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="clear"
-            android:layout_gravity="center"
-            />
-    </FrameLayout>
 </android.support.constraint.ConstraintLayout>
