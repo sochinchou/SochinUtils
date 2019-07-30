@@ -218,7 +218,6 @@ public class ByteUtils {
 		}else{
 			return "null";
 		}
-
 	}
 
 	public static String bytes2StrDecimal(byte[] bytes) {
@@ -311,47 +310,104 @@ public class ByteUtils {
 		}
 		return value;
 	}
-	
-	
 
 
 
-	  public static byte[] str2Bcd(byte[] ascii, int asc_len) {
-		    byte[] bcd = new byte[asc_len / 2];
-		    int j = 0;
-		    for (int i = 0; i < (asc_len + 1) / 2; i++) {
-		      bcd[i] = asc_to_bcd(ascii[j++]);
-		      bcd[i] = (byte) (((j >= asc_len) ? 0x00 : asc_to_bcd(ascii[j++])) + (bcd[i] << 4));
-		    }
-		    return bcd;
-		  }
 
-	  private static byte asc_to_bcd(byte asc) {
-		    byte bcd;
+	public static byte asciiToBcd(byte asci) {
+		byte bcd = 0;
+		if (asci >= '0' && asci <= '9') {
+			bcd = (byte) (asci - '0');
+		} else if (asci >= 'A' && asci <= 'F') {
+			bcd = (byte) (asci - 'A' + 0x0A);
+		} else if (asci >= 'a' && asci <= 'f') {
+			bcd = (byte) (asci - 'a' + 0x0A);
+		}
+		return bcd;
+	}
 
-		    if ((asc >= '0') && (asc <= '9'))
-		      bcd = (byte) (asc - '0');
-		    else if ((asc >= 'A') && (asc <= 'F'))
-		      bcd = (byte) (asc - 'A' + 10);
-		    else if ((asc >= 'a') && (asc <= 'f'))
-		      bcd = (byte) (asc - 'a' + 10);
-		    else
-		      bcd = (byte) (asc - 48);
-		    return bcd;
-		  }
-	  
-		  public static String bcd2Str(byte[] bytes) {
-		    char temp[] = new char[bytes.length * 2], val;
+	public static byte bcdToAscii(byte bcd) {
+		byte asc = 0;
+		if (bcd >= 0x00 && bcd <= 0x09) {
+			asc = (byte) ('0' + bcd);
+		} else if (bcd >= 0x0A && bcd <= 0x0F) {
+			asc = (byte) ('A' + bcd - 0x0A);
+		}
+		return asc;
+	}
 
-		    for (int i = 0; i < bytes.length; i++) {
-		      val = (char) (((bytes[i] & 0xf0) >> 4) & 0x0f);
-		      temp[i * 2] = (char) (val > 9 ? val + 'A' - 10 : val + '0');
+	public static boolean isCanConvertToBcd(byte cha){
+		return ( (cha >= '0' && cha <= '9')
+				|| (cha >= 'A' && cha <= 'F')
+				|| (cha >= 'a' && cha <= 'f'));
+	}
 
-		      val = (char) (bytes[i] & 0x0f);
-		      temp[i * 2 + 1] = (char) (val > 9 ? val + 'A' - 10 : val + '0');
-		    }
-		    return new String(temp);
-		  }
+	public static byte[] strToBcd(String str){
+
+		if(str == null || str.length() <= 0){
+//			System.out.println("str is empty, return");
+			return null;
+		}
+
+		if(str.length() % 2 == 1){
+			str = '0' + str;
+		}
+
+		byte[] asciBytes = str.getBytes();
+
+		for(byte strByte : asciBytes){
+			if(!isCanConvertToBcd(strByte)){
+//				System.out.println("str contains invalid char, return");
+				return null;
+			}
+		}
+
+		int lenAsci = asciBytes.length;
+		for(int i = 0; i < lenAsci; i++){
+			asciBytes[i] = asciiToBcd(asciBytes[i]);
+		}
+
+		int lenBcd = lenAsci/2;
+		byte[] bcdBytes = new byte[lenBcd];
+
+		for(int i = 0; i < lenBcd; i++){
+			bcdBytes[i] = (byte)(asciBytes[2 * i] << 4 | asciBytes[2 * i + 1]);
+		}
+		return bcdBytes;
+	}
+
+	public static String bcdToStr(byte[] bcdBytes){
+		if(bcdBytes == null || bcdBytes.length <= 0){
+//			System.out.println("bytes is null, return");
+			return null;
+		}
+
+		int lenAsci = 2 * bcdBytes.length;
+		byte[] asciBytes = new byte[lenAsci];
+
+		for(int i = 0; i < lenAsci - 1; i += 2){
+			asciBytes[i] = bcdToAscii((byte)(bcdBytes[i / 2] >> 4 & 0x0F));
+			asciBytes[i + 1] = bcdToAscii((byte)(bcdBytes[i / 2] & 0x0F));
+		}
+		return new String(asciBytes);
+	}
+
+
+	public static byte[] dataToAscii(byte[] dataBytes){
+		if(dataBytes == null || dataBytes.length <= 0){
+//			System.out.println("bytes is null, return");
+			return null;
+		}
+
+		int lenAsci = 2 * dataBytes.length;
+		byte[] asciBytes = new byte[lenAsci];
+
+		for(int i = 0; i < lenAsci - 1; i += 2){
+			asciBytes[i] = bcdToAscii((byte)(dataBytes[i / 2] >> 4 & 0x0F));
+			asciBytes[i + 1] = bcdToAscii((byte)(dataBytes[i / 2] & 0x0F));
+		}
+		return asciBytes;
+	}
 		  
 	/* test code
 	short ss = -32767;
